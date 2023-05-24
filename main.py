@@ -9,7 +9,7 @@ autor_service = AutorService()
 livro_service = LivroService(categoria_service.categoria_dao, editora_service.editora_dao, autor_service.autor_dao)
 
 def menu_principal():
-    print('[Menu Principal] Escolha uma das seguintes opções:\n'
+    print('[Menu Principal] Escolha uma das seguintes opções :\n'
             '1 - Categorias\n'
             '2 - Editoras\n'
             '3 - Autores\n'
