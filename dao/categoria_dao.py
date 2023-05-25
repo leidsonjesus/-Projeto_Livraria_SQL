@@ -1,15 +1,28 @@
 from model.categoria import Categoria
+from database.conexao_factory import ConexaoFactory
 
 class CategoriaDAO:
 
     def __init__(self):
+        self.__conexao_factory = ConexaoFactory()
         self.__categorias: list[Categoria] = list()
 
     def listar(self) -> list[Categoria]:
         return self.__categorias
 
     def adicionar(self, categoria: Categoria) -> None:
-        self.__categorias.append(categoria)
+        conexao = self.__conexao_factory.get_conexao()
+        """ self.__categorias.append(categoria)"""
+        cursor = conexao.cursor()
+        cursor.execute("""
+                        INSERT INTO categorias (nome) VALUES (%(nome)s)
+                        """,
+                       ({'nome': categoria.nome, }))
+        conexao.commit()
+        cursor.close()
+        conexao.close()
+
+    
 
     def remover(self, categoria_id: int) -> bool:
         encontrado = False
@@ -28,12 +41,4 @@ class CategoriaDAO:
                 cat = c
                 break
         return cat
-    
-    def ultimo_id(self) -> int:
-        index = len(self.__categorias) -1
-        if (index == -1):
-            id = 0
-        else:
-            id = self.__categorias[index].id
-        return id
     
