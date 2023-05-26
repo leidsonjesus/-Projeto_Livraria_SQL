@@ -5,7 +5,6 @@ class EditoraDAO:
 
     def __init__(self):
         self.__conexao_factory = ConexaoFactory()
-        self.__editoras: list[Editora] = list()
 
     def listar(self) -> list[Editora]:
         editoras = list ()

@@ -5,8 +5,7 @@ class CategoriaDAO:
 
     def __init__(self):
         self.__conexao_factory = ConexaoFactory()
-        self.__categorias: list[Categoria] = list()
-
+       
     def listar(self) -> list[Categoria]:
         categorias = list ()
 

@@ -5,7 +5,6 @@ class AutorDAO:
 
     def __init__(self):
         self.__conexao_factory = ConexaoFactory()
-        self.__autores: list[Autor] = list()
 
     def listar(self) -> list[Autor]:
         autores = list ()
