@@ -7,20 +7,18 @@ class AutorDAO:
         self.__conexao_factory = ConexaoFactory()
 
     def listar(self) -> list[Autor]:
-        autores = list ()
+        autores = list()
 
         conexao = self.__conexao_factory.get_conexao()
         cursor = conexao.cursor()
-        cursor.execute("SELECT * FROM autores")
+        cursor.execute("SELECT id, nome, email, telefone, bio FROM autores")
         resultados = cursor.fetchall()
-
-        for result in resultados: 
-            act = Autor(result[1], result[2], result[3], result[4])
-            act.id = result[0]
-            autores.append(act)
-    
+        for result in resultados:
+            aut = Autor(result[1], result[2], result[3], result[4])
+            aut.id = result[0]
+            autores.append(aut)
         cursor.close()
-        conexao.close() 
+        conexao.close()
 
         return autores
 
@@ -28,9 +26,18 @@ class AutorDAO:
         conexao = self.__conexao_factory.get_conexao()
         cursor = conexao.cursor()
         cursor.execute("""
-                        INSERT INTO autores  (nome, email, telefone, bio ) VALUES (%(nome)s, %(email)s, %(telefone)s, %(bio)s)
-                        """,
-                       ({'nome': autor.nome, 'email': autor.email, 'telefone' : autor.telefone, 'bio': autor.bio, }))
+                        INSERT INTO autores 
+                            (nome, email, telefone, bio) 
+                        VALUES 
+                            (%(nome)s, %(email)s, %(telefone)s, %(bio)s)
+                        """, 
+                        ({
+                            'nome': autor.nome, 
+                            'email': autor.email, 
+                            'telefone': autor.telefone, 
+                            'bio': autor.bio,
+                        })
+                        )
         conexao.commit()
         cursor.close()
         conexao.close()
@@ -39,31 +46,29 @@ class AutorDAO:
         conexao = self.__conexao_factory.get_conexao()
         cursor = conexao.cursor()
         cursor.execute("DELETE FROM autores WHERE id = %s", (autor_id,))
-
-        autor_removidas = cursor.rowcount
+        
+        autores_removidos = cursor.rowcount
 
         conexao.commit()
         cursor.close()
         conexao.close()
 
-        if (autor_removidas == 0 ):
+        if (autores_removidos == 0):
             return False
         return True
 
     def buscar_por_id(self, autor_id) -> Autor:
-        act = None
-
+        aut = None
         conexao = self.__conexao_factory.get_conexao()
         cursor = conexao.cursor()
-        cursor.execute("SELECT id, nome, email, telefone, bio  FROM autores WHERE id = %s", (autor_id,))
+        cursor.execute("""
+                        SELECT id, nome, email, telefone, bio
+                        FROM autores WHERE id = %s
+                        """, (autor_id,))
         resultado = cursor.fetchone()
-
         if (resultado):
-            act = Autor(resultado[1], resultado[2], resultado[3], resultado[4])
-            act.id = resultado[0]
-        
+            aut = Autor(resultado[1], resultado[2], resultado[3], resultado[4])
+            aut.id = resultado[0]
         cursor.close()
         conexao.close()
-
-        return act 
-    
+        return aut

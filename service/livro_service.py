@@ -11,7 +11,7 @@ from typing import cast
 class LivroService:
 
     def __init__(self, categoria_dao: CategoriaDAO, editora_dao: EditoraDAO, autor_dao: AutorDAO):
-        self.__livro_dao: LivroDAO = LivroDAO()
+        self.__livro_dao: LivroDAO = LivroDAO(categoria_dao, editora_dao, autor_dao)
         self.__categoria_dao: CategoriaDAO = categoria_dao
         self.__editora_dao: EditoraDAO = editora_dao
         self.__autor_dao: AutorDAO = autor_dao
@@ -49,7 +49,7 @@ class LivroService:
                 print('Nenhum livro encontrado!')
 
             for livro in livros:
-                print(f'Id: {livro.id} | Título: {livro.titulo} | Resumo: {livro.resumo} | Ano: {str(livro.ano)} | Páginas: {str(livro.paginas)} | Isbn: {livro.isbn} | Categoria: {livro.categoria.nome} | Editora: {livro.editora.nome}  | Autor: {livro.autor.nome}')
+                print(f'Id: {livro.id} | Título: {livro.titulo} | Resumo: {livro.resumo} | Ano: {str(livro.ano)} | Páginas: {str(livro.paginas)} | Isbn: {livro.isbn} | Código: {livro.codigo} | Categoria: {livro.categoria.nome} | Editora: {livro.editora.nome}  | Autor: {livro.autor.nome}')
         except Exception as e:
             print(f'Erro ao exibir os livros! - {e}')
             return
@@ -60,7 +60,6 @@ class LivroService:
         print('\nAdicionando categoria...')
 
         try:
-            id = self.__livro_dao.ultimo_id() + 1
             titulo = input('Digite o título do livro: ')
             resumo = input('Digite o resumo do livro: ')
             ano = int(input('Digite o ano do livro: '))
@@ -106,7 +105,7 @@ class LivroService:
                 id_autor = int(input('Digite o ID do autor do livro: '))
                 autor: Autor = self.__autor_dao.buscar_por_id(id_autor)
 
-            novo_livro = Livro(id, titulo, resumo, ano, paginas, isbn, categoria, editora, autor)
+            novo_livro = Livro(titulo, resumo, ano, paginas, isbn, categoria, editora, autor)
 
             self.__livro_dao.adicionar(novo_livro)
             print('Livro adicionado com sucesso!')
@@ -141,7 +140,7 @@ class LivroService:
             if (liv == None):
                 print('Livro não encontrado!')
             else:
-                print(f'Id: {liv.id} | Título: {liv.titulo} | Resumo: {liv.resumo} | Ano: {str(liv.ano)} | Páginas: {str(liv.paginas)} | Isbn: {liv.isbn} | Categoria: {liv.categoria.nome}  | Editora: {liv.editora.nome}  | Autor: {liv.autor.nome}')
+                print(f'Id: {liv.id} | Título: {liv.titulo} | Resumo: {liv.resumo} | Ano: {str(liv.ano)} | Páginas: {str(liv.paginas)} | Isbn: {liv.isbn} | Código: {liv.codigo} | Categoria: {liv.categoria.nome}  | Editora: {liv.editora.nome}  | Autor: {liv.autor.nome}')
         except Exception as e:
             print(f'Erro ao exibir livro! - {e}')
             return     

@@ -1,7 +1,7 @@
 class Editora:
 
-    def __init__(self, nome: str, endereco: str, telefone: str):
-        self.__id: int = 0
+    def __init__(self, nome: str, endereco: str, telefone: str): # alterado
+        self.__id: int = 0 # alterado
         self.__nome: str = nome
         self.__endereco: str = endereco
         self.__telefone: str = telefone

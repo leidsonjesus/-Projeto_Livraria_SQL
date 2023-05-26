@@ -1,5 +1,6 @@
 import psycopg2
 
+
 class ConexaoFactory:
 
     def get_conexao(self):
