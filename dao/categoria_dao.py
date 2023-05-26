@@ -63,7 +63,7 @@ class CategoriaDAO:
 
         if (resultado):
             cat = Categoria(resultado[1])
-            cat.id = resultado[0]
+            catid = resultado[0]
         
         cursor.close()
         conexao.close()

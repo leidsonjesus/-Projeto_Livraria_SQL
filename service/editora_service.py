@@ -54,11 +54,10 @@ class EditoraService:
         print('\nAdicionando editora...')
 
         try:
-            id = self.__editora_dao.ultimo_id() + 1
             nome = input('Digite o nome da editora: ')
             endereco = input('Digite o endereço da editora: ')
             telefone = input('Digite o telefone da editora: ')
-            nova_editora = Editora(id, nome, endereco, telefone)
+            nova_editora = Editora(nome, endereco, telefone)
 
             self.__editora_dao.adicionar(nova_editora)
             print('Editora adicionada com sucesso!')
